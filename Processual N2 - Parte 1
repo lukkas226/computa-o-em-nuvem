@@ -1,0 +1,418 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/lukkas226/computa-o-em-nuvem/blob/main/Processual%20N2%20-%20Parte%201\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "OpFHrPWPJp1V",
+        "outputId": "1b15ee15-62ef-4318-fc6e-2270e1ed8b3a"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "Requirement already satisfied: flask in /usr/local/lib/python3.10/dist-packages (3.0.3)\n",
+            "Requirement already satisfied: requests in /usr/local/lib/python3.10/dist-packages (2.32.3)\n",
+            "Requirement already satisfied: Werkzeug>=3.0.0 in /usr/local/lib/python3.10/dist-packages (from flask) (3.1.3)\n",
+            "Requirement already satisfied: Jinja2>=3.1.2 in /usr/local/lib/python3.10/dist-packages (from flask) (3.1.4)\n",
+            "Requirement already satisfied: itsdangerous>=2.1.2 in /usr/local/lib/python3.10/dist-packages (from flask) (2.2.0)\n",
+            "Requirement already satisfied: click>=8.1.3 in /usr/local/lib/python3.10/dist-packages (from flask) (8.1.7)\n",
+            "Requirement already satisfied: blinker>=1.6.2 in /usr/local/lib/python3.10/dist-packages (from flask) (1.9.0)\n",
+            "Requirement already satisfied: charset-normalizer<4,>=2 in /usr/local/lib/python3.10/dist-packages (from requests) (3.4.0)\n",
+            "Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.10/dist-packages (from requests) (3.10)\n",
+            "Requirement already satisfied: urllib3<3,>=1.21.1 in /usr/local/lib/python3.10/dist-packages (from requests) (2.2.3)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.10/dist-packages (from requests) (2024.8.30)\n",
+            "Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.10/dist-packages (from Jinja2>=3.1.2->flask) (3.0.2)\n"
+          ]
+        }
+      ],
+      "source": [
+        "pip install flask requests\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "background_save": true,
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "524melZfJ1PL",
+        "outputId": "a495435f-c594-4b49-d34a-f541a241e383"
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            " * Serving Flask app '__main__'\n",
+            " * Debug mode: off\n"
+          ]
+        },
+        {
+          "name": "stderr",
+          "output_type": "stream",
+          "text": [
+            "INFO:werkzeug:\u001b[31m\u001b[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.\u001b[0m\n",
+            " * Running on http://127.0.0.1:5000\n",
+            "INFO:werkzeug:\u001b[33mPress CTRL+C to quit\u001b[0m\n"
+          ]
+        }
+      ],
+      "source": [
+        "from flask import Flask\n",
+        "import time\n",
+        "\n",
+        "app = Flask(__name__)\n",
+        "\n",
+        "@app.route('/')\n",
+        "def home():\n",
+        "    # Simula um pequeno atraso para representar o processamento do servidor\n",
+        "    time.sleep(0.1)\n",
+        "    return \"Servidor ativo\"\n",
+        "\n",
+        "if __name__ == '__main__':\n",
+        "    app.run(port=5000)  # O servidor irá rodar na porta 5000\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "id": "ZP6YalWeJ7s6",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 106
+        },
+        "outputId": "2df86981-3481-4059-ffb9-2a891f88d859"
+      },
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "SyntaxError",
+          "evalue": "invalid syntax (<ipython-input-2-a5149a6ca0d5>, line 1)",
+          "traceback": [
+            "\u001b[0;36m  File \u001b[0;32m\"<ipython-input-2-a5149a6ca0d5>\"\u001b[0;36m, line \u001b[0;32m1\u001b[0m\n\u001b[0;31m    python server.py\u001b[0m\n\u001b[0m           ^\u001b[0m\n\u001b[0;31mSyntaxError\u001b[0m\u001b[0;31m:\u001b[0m invalid syntax\n"
+          ]
+        }
+      ],
+      "source": [
+        "python server.py\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import requests\n",
+        "import threading\n",
+        "\n",
+        "# Função para realizar uma requisição ao servidor\n",
+        "def make_request():\n",
+        "    try:\n",
+        "        response = requests.get(\"http://127.0.0.1:5000/\")\n",
+        "        print(response.text)\n",
+        "    except requests.exceptions.RequestException as e:\n",
+        "        print(\"Falha na conexão:\", e)\n",
+        "\n",
+        "# Função para simular um ataque DDoS com múltiplas requisições simultâneas\n",
+        "def simulate_ddos(threads):\n",
+        "    thread_list = []\n",
+        "    for _ in range(threads):\n",
+        "        thread = threading.Thread(target=make_request)\n",
+        "        thread_list.append(thread)\n",
+        "        thread.start()\n",
+        "\n",
+        "    # Aguarda que todas as threads terminem\n",
+        "    for thread in thread_list:\n",
+        "        thread.join()\n",
+        "\n",
+        "# Solicita o número de requisições simuladas ao usuário\n",
+        "num_requests = int(input(\"Digite o número de requisições para simular o ataque DDoS: \"))\n",
+        "simulate_ddos(num_requests)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "qu90fEi9_Bfz",
+        "outputId": "2ba809b7-1af8-46f2-f8dd-eec604afdb76"
+      },
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Digite o número de requisições para simular o ataque DDoS: 226\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd16650>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfaaa0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd17790>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdf9120>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfb040>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfa170>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcc4ed40>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd17eb0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfbd60>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdf94b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce2b760>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcc4e650>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão:Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfb610>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            " HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdf8e80>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdf9810>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd17880>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdf9f60>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfadd0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce2a2c0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcc4ec50>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9c7c0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcc4fbb0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce28f40>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce2a8f0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfa860>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfb760>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce288e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9e770>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9ca60>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcc4eb00>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdf9ed0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9e5f0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfbd60>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9ce50>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce2a9e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfa380>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcc4fbb0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9e590>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcfb20>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9d090>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9d870>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce298d0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdce9e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcc4e2f0>: Failed to establish a new connection: [Errno 111] Connection refused'))Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9d7e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4f2e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcded0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9e5c0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4fb20>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcdb10>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcf700>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9eb30>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4ec80>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4e9b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce00250>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4f940>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcf640>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcc1c0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfaec0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce03d00>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfaa40>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce28a60>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce28070>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcf2b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcc4fd00>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdf9150>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcd4e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão:Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9c7c0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            " HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9efb0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd17d60>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdf9420>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce28c40>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce2b310>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd177f0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4e8f0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão:Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9eb00>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            " HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9e530>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4dde0>: Failed to establish a new connection: [Errno 111] Connection refused'))HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9eb90>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9d810>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão:Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd160b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            " HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce2b100>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce02560>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4f1f0>: Failed to establish a new connection: [Errno 111] Connection refused'))Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd17820>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9e5c0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdfaf20>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce00520>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce2b910>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4ea10>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce009d0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd160b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce02b00>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdce200>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce02140>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce03fd0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce00700>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee4310>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce03f70>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee6320>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4f940>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce00220>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce022f0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce00340>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce00850>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcf070>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdf9ea0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce02710>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4f4f0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee4b80>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce02b00>: Failed to establish a new connection: [Errno 111] Connection refused'))Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce02020>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcdd20>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee5300>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce01a50>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee4790>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee4f70>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee75e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4dff0>: Failed to establish a new connection: [Errno 111] Connection refused'))Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee59c0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce00520>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce038e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9d660>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce00430>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce021d0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4d690>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee71c0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ec160>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4d690>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9f280>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee6890>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce02140>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee7a60>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce00df0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce28b80>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9eb00>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ed570>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ede10>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão:Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce2b970>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            " HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcdc00>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9ca30>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce883d0>: Failed to establish a new connection: [Errno 111] Connection refused'))HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ee410>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee48e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7efa60>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ec2e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce8b2e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce8b490>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce02b00>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9fd90>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7eddb0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce8ba00>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce8bac0>: Failed to establish a new connection: [Errno 111] Connection refused'))Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7eec50>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce880a0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfbe20>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfb790>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce8b250>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce8bc10>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ef0a0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfaf20>: Failed to establish a new connection: [Errno 111] Connection refused'))Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfa260>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfbc10>: Failed to establish a new connection: [Errno 111] Connection refused'))Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccf9fc0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão:Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfa5f0>: Failed to establish a new connection: [Errno 111] Connection refused')) HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce1b7f0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccf8820>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccf82e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce1b8e0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcea9cc0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bceab4c0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce1a6b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccf87f0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão:Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bceab940>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcea88b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            " HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ed270>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce1b970>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfa560>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccf83a0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfba00>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce29360>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee48b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce1b100>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccf88b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce4f400>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce05720>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfb010>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcca30>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee49d0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfaf50>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccf86d0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce8a920>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão:Falha na conexão:Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce8bfa0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "  HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcee49d0>: Failed to establish a new connection: [Errno 111] Connection refused'))HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcf970>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7edff0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce2b580>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ee3b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce8b6d0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce88220>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ef2b0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ed5d0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcf280>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce89ae0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd167a0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7eff10>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ecca0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce01ea0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce03130>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce035e0>: Failed to establish a new connection: [Errno 111] Connection refused'))HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bce02fe0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd9d660>: Failed to establish a new connection: [Errno 111] Connection refused'))Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccf8280>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7edae0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bceab910>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcea9240>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcc0c5b0>: Failed to establish a new connection: [Errno 111] Connection refused'))Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcdcf280>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcd89480>: Failed to establish a new connection: [Errno 111] Connection refused'))Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bceabc40>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bcea9db0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bd7ecb80>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bc68c160>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bc68cbb0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bc68d600>: Failed to establish a new connection: [Errno 111] Connection refused'))\n",
+            "Falha na conexão: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7de8bccfbdf0>: Failed to establish a new connection: [Errno 111] Connection refused'))\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "l015pJ-nAnyQ"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNWTQF942elDbNH1E0YKiri",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "name": "python3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
